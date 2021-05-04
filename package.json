@@ -8,7 +8,7 @@
     "clean": "rimraf build/",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
-    "postinstall": "npm run build",
+    "postinstall": "npm install && npm run build",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.json TS_NODE_FILES=true HTTP_PORT=3000 DEBUG=info*,warn* mocha ./test/{unit,integration}/**/*.spec.ts",
     "typecheck": "tsc --noEmit"
   },
