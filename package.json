@@ -1,6 +1,6 @@
 {
   "name": "insignia-nodejs-sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Insignia Identity Management NodeJS SDK",
   "main": "index.js",
   "scripts": {
