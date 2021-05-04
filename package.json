@@ -1,10 +1,10 @@
 {
-  "name": "insignia-nodejs-sdk",
+  "name": "insignia-sdk",
   "version": "0.1.0",
   "description": "Insignia Identity Management NodeJS SDK",
   "main": "node build/index.js",
   "scripts": {
-    "build": "npm run clean && tsc --project tsconfig.build.json",
+    "build": "npm run clean && tsc --project tsconfig.build.json && tscpaths -p tsconfig.build.json -s ./src -o ./build",
     "clean": "rimraf build/",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
@@ -22,8 +22,14 @@
     "url": "https://github.com/HighOutputVentures/insignia-sdk/issues"
   },
   "peerDependencies": {
+    "@types/node-fetch": "^2.5.10",
+    "@types/ramda": "^0.27.40",
+    "@types/socket.io-client": "^1.4.36",
     "rimraf": "^3.0.2",
-    "typescript": "^3.7.2"
+    "typescript": "^4.2.3",
+    "node-fetch": "^2.6.1",
+    "ramda": "^0.27.1",
+    "socket.io-client": "^4.0.1"
   },
   "homepage": "https://github.com/HighOutputVentures/insignia-sdk#readme",
   "devDependencies": {
