@@ -4,7 +4,7 @@
   "description": "Insignia Identity Management NodeJS SDK",
   "main": "node build/index.js",
   "scripts": {
-    "build": "npm run clean && tsc --project tsconfig.build.json && tscpaths -p tsconfig.build.json -s ./src -o ./build",
+    "build": "npm run clean && tsc --project tsconfig.build.json",
     "clean": "rimraf build/",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
