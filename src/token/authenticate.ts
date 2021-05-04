@@ -6,13 +6,14 @@ import { ID } from 'src/type';
 const logger = Logger.tag('authenticateUser');
 
 export default async function authenticateUser(
+  host = config.host,
   appId: ID,
   input:
     | { grantType: 'refreshToken'; refreshToken: string }
     | { grantType: 'password'; username: string; password: string },
 ) {
   const path = `/v1/authenticate`;
-  const url = `${config.baseURL}${path}`;
+  const url = `${host}${path}`;
   const body = JSON.stringify(input);
   const method = 'POST';
   const options = {

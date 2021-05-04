@@ -8,15 +8,16 @@ import { User } from 'src/type';
 const logger = Logger.tag('createUser');
 
 export default async function createUser(
+  host = config.host,
   appConfig: { appId: string; appKey?: string },
   input: Pick<User, 'username'> &
     Partial<Omit<User, 'id' | 'username'>> & { password: string },
 ) {
   const path = '/v1/users';
-  const url = `${config.baseURL}${path}`;
+  const url = `${host}${path}`;
   const body = JSON.stringify({
     ...R.omit(['password'])(input),
-    credential: { password: input.password },
+    credentials: { password: input.password },
   });
   const method = 'POST';
   const signature: Record<string, any> = appConfig.appKey
@@ -26,7 +27,7 @@ export default async function createUser(
             method,
             path,
             body,
-            host: config.baseURL,
+            host,
             appId: appConfig.appId,
           },
           appConfig.appKey,

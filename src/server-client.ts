@@ -6,20 +6,20 @@ import listenEvents from 'src/event/listen';
 import fetchEvents from 'src/event/fetch';
 
 export default class ServerClient {
-  private appConfig: { appId: string; appKey: string };
+  private opts: { appId: string; appKey: string; host?: string };
 
-  public constructor(appConfig: { appId: string; appKey: string }) {
-    this.appConfig = appConfig;
+  public constructor(opts: { appId: string; appKey: string; host?: string }) {
+    this.opts = opts;
   }
 
   public get user() {
     const client = this as ServerClient;
     return {
-      create: (input: Parameters<typeof createUser>[1]) =>
-        createUser(client.appConfig, input),
-      update: (id: ID, input: Parameters<typeof updateUser>[2]) =>
-        updateUser(client.appConfig, id, input),
-      delete: (id: ID) => deleteUser(client.appConfig, id),
+      create: (input: Parameters<typeof createUser>[2]) =>
+        createUser(client.opts.host, client.opts, input),
+      update: (id: ID, input: Parameters<typeof updateUser>[3]) =>
+        updateUser(client.opts.host, client.opts, id, input),
+      delete: (id: ID) => deleteUser(client.opts.host, client.opts, id),
     };
   }
 
@@ -27,11 +27,11 @@ export default class ServerClient {
     const client = this as ServerClient;
     return {
       listen: ((input: Parameters<typeof listenEvents>[1]) =>
-        listenEvents(client.appConfig, input)) as (
+        listenEvents(client.opts.appId, input)) as (
         type: Parameters<typeof listenEvents>[1],
       ) => ReturnType<typeof listenEvents>,
-      fetch: (input: Parameters<typeof fetchEvents>[1]) =>
-        fetchEvents(client.appConfig, input),
+      fetch: (input: Parameters<typeof fetchEvents>[2]) =>
+        fetchEvents(client.opts.host, client.opts, input),
     };
   }
 }

@@ -7,11 +7,12 @@ import { ApplicationConfig, ID } from 'src/type';
 const logger = Logger.tag('deleteUser');
 
 export default async function deleteUser(
+  host = config.host,
   appConfig: ApplicationConfig,
   user: ID,
 ) {
   const path = `/v1/users/${user}`;
-  const url = `${config.baseURL}${path}`;
+  const url = `${host}${path}`;
   const body = JSON.stringify({});
   const method = 'DELETE';
   const options = {
@@ -24,7 +25,7 @@ export default async function deleteUser(
           method,
           path,
           body,
-          host: config.baseURL,
+          host,
           appId: appConfig.appId,
         },
         appConfig.appKey,

@@ -7,6 +7,7 @@ import { User, UserEvent } from 'src/type';
 const logger = Logger.tag('fetchEvents');
 
 export default async function fetchEvents(
+  host = config.host,
   appConfig: {
     appId: string;
     appKey: string;
@@ -22,7 +23,7 @@ export default async function fetchEvents(
     'base64',
   )}`;
   const path = '/v1/events';
-  const url = `${config.baseURL}${path}?${queryString}`;
+  const url = `${host}${path}?${queryString}`;
   const body = JSON.stringify({});
   const method = 'GET';
   const options = {
@@ -35,7 +36,7 @@ export default async function fetchEvents(
           method,
           path,
           body,
-          host: config.baseURL,
+          host,
           query: queryString,
           appId: appConfig.appId,
         },

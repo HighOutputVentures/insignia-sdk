@@ -6,11 +6,12 @@ import { ID } from 'src/type';
 const logger = Logger.tag('revokeToken');
 
 export default async function revokeToken(
+  host = config.host,
   appId: ID,
   input: { refreshToken: string },
 ) {
   const path = `/v1/revoke`;
-  const url = `${config.baseURL}${path}`;
+  const url = `${host}${path}`;
   const body = JSON.stringify(input);
   const method = 'POST';
   const options = {
