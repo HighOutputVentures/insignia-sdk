@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
-import config from 'src/library/config';
-import Logger from 'src/library/logger';
-import { ID } from 'src/type';
+import config from '../library/config';
+import Logger from '../library/logger';
+import { ID } from '../type';
 
 const logger = Logger.tag('authenticateUser');
 
@@ -9,8 +9,8 @@ export default async function authenticateUser(
   host = config.host,
   appId: ID,
   input:
-    | { grantType: 'refreshToken'; refreshToken: string }
-    | { grantType: 'password'; username: string; password: string },
+  | { grantType: 'refreshToken'; refreshToken: string }
+  | { grantType: 'password'; username: string; password: string },
 ) {
   const path = `/v1/authenticate`;
   const url = `${host}${path}`;

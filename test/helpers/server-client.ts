@@ -1,4 +1,4 @@
-import { ServerClient } from 'src/index';
+import { ServerClient } from '../../src/index';
 import chance from './chance';
 
 const serverClient = new ServerClient({

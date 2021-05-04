@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
-import config from 'src/library/config';
-import Logger from 'src/library/logger';
-import { ID } from 'src/type';
+import config from '../library/config';
+import Logger from '../library/logger';
+import { ID } from '../type';
 
 const logger = Logger.tag('revokeToken');
 

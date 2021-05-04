@@ -1,9 +1,9 @@
 import fetch from 'node-fetch';
 import R from 'ramda';
-import config from 'src/library/config';
-import createSignature from 'src/library/create-signature';
-import Logger from 'src/library/logger';
-import { User } from 'src/type';
+import config from '../library/config';
+import createSignature from '../library/create-signature';
+import Logger from '../library/logger';
+import { User } from '../type';
 
 const logger = Logger.tag('createUser');
 
@@ -11,7 +11,7 @@ export default async function createUser(
   host = config.host,
   appConfig: { appId: string; appKey?: string },
   input: Pick<User, 'username'> &
-    Partial<Omit<User, 'id' | 'username'>> & { password: string },
+  Partial<Omit<User, 'id' | 'username'>> & { password: string },
 ) {
   const path = '/v1/users';
   const url = `${host}${path}`;
@@ -20,19 +20,19 @@ export default async function createUser(
     credentials: { password: input.password },
   });
   const method = 'POST';
-  const signature: Record<string, any> = appConfig.appKey
+  const signature: Record<string, string> = appConfig.appKey
     ? {
-        Signature: createSignature(
-          {
-            method,
-            path,
-            body,
-            host,
-            appId: appConfig.appId,
-          },
-          appConfig.appKey,
-        ),
-      }
+      Signature: createSignature(
+        {
+          method,
+          path,
+          body,
+          host,
+          appId: appConfig.appId,
+        },
+        appConfig.appKey,
+      ),
+    }
     : {};
   const options = {
     method,

@@ -1,11 +1,11 @@
-import { ID } from 'src/type';
 import R from 'ramda';
 import io from 'socket.io-client';
-import createUser from 'src/user/create';
-import updateUser from 'src/user/update';
-import deleteUser from 'src/user/delete';
-import listenEvents from 'src/event/listen';
-import fetchEvents from 'src/event/fetch';
+import deleteUser from './user/delete';
+import listenEvents from './event/listen';
+import fetchEvents from './event/fetch';
+import updateUser from './user/update';
+import createUser from './user/create';
+import { ID } from './type';
 import config from './library/config';
 import readUser from './user/read';
 import readUsers from './user/read-all';

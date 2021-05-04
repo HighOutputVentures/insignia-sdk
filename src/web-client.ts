@@ -1,4 +1,4 @@
-import createUser from 'src/user/create';
+import createUser from './user/create';
 import authenticateUser from './token/authenticate';
 import revokeToken from './token/revoke';
 

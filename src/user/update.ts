@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
-import config from 'src/library/config';
-import createSignature from 'src/library/create-signature';
-import Logger from 'src/library/logger';
-import { ApplicationConfig, ID, User } from 'src/type';
+import { ApplicationConfig, ID, User } from '../type';
+import config from '../library/config';
+import createSignature from '../library/create-signature';
+import Logger from '../library/logger';
 
 const logger = Logger.tag('updateUser');
 

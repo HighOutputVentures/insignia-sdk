@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as authenticateUser from 'src/token/authenticate';
-import * as revokeToken from 'src/token/revoke';
-import * as createUser from 'src/user/create';
-import chance from 'test/helpers/chance';
-import webClient from 'test/helpers/web-client';
+import chance from '../helpers/chance';
+import webClient from '../helpers/web-client';
+import * as authenticateUser from '../../src/token/authenticate';
+import * as revokeToken from '../../src/token/revoke';
+import * as createUser from '../../src/user/create';
 
 describe('WebClient', () => {
   it('should call user-create function, When creating user', async () => {

@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { UserEvent, UserEventType } from 'src/type';
+import { UserEvent, UserEventType } from '../type';
 
 class CustomEventEmitter extends EventEmitter {
   on(input: 'data', cb: (data: UserEvent) => void) {
@@ -14,7 +14,7 @@ export default function listenEvents(
   options: { appId: string; socket: SocketIOClient.Socket },
   type?: UserEventType,
 ) {
-  options.socket.on(`${options.appId}:events`, (message: any) => {
+  options.socket.on(`${options.appId}:events`, (message: string) => {
     const event: UserEvent = JSON.parse(message);
 
     if (type && type !== event.type) {

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as createUser from 'src/user/create';
-import * as updateUser from 'src/user/update';
-import * as deleteUser from 'src/user/delete';
-import * as fetchEvents from 'src/event/fetch';
-import chance from 'test/helpers/chance';
-import serverClient from 'test/helpers/server-client';
+import chance from '../helpers/chance';
+import serverClient from '../helpers/server-client';
+import * as fetchEvents from '../../src/event/fetch';
+import * as createUser from '../../src/user/create';
+import * as updateUser from '../../src/user/update';
+import * as deleteUser from '../../src/user/delete';
 
 describe('ServerClient', () => {
   it('should call user-create function, When creating user', async () => {
