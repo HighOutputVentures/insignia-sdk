@@ -7,6 +7,8 @@ import deleteUser from 'src/user/delete';
 import listenEvents from 'src/event/listen';
 import fetchEvents from 'src/event/fetch';
 import config from './library/config';
+import readUser from './user/read';
+import readUsers from './user/read-all';
 
 export default class ServerClient {
   private opts: {
@@ -33,6 +35,18 @@ export default class ServerClient {
   public get user() {
     const client = this as ServerClient;
     return {
+      read: (input: Parameters<typeof readUser>[2]) =>
+        readUser(
+          client.opts.host,
+          R.pick(['appId', 'appKey'])(client.opts),
+          input,
+        ),
+      readAll: (input: Parameters<typeof readUsers>[2]) =>
+        readUsers(
+          client.opts.host,
+          R.pick(['appId', 'appKey'])(client.opts),
+          input,
+        ),
       create: (input: Parameters<typeof createUser>[2]) =>
         createUser(
           client.opts.host,

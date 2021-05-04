@@ -2,29 +2,17 @@ import fetch from 'node-fetch';
 import config from 'src/library/config';
 import createSignature from 'src/library/create-signature';
 import Logger from 'src/library/logger';
-import { User, UserEvent } from 'src/type';
+import { ApplicationConfig, ID } from 'src/type';
 
-const logger = Logger.tag('fetchEvents');
+const logger = Logger.tag('readUser');
 
-export default async function fetchEvents(
+export default async function readUser(
   host = config.host,
-  appConfig: {
-    appId: string;
-    appKey: string;
-  },
-  params: Partial<{
-    filter: Pick<UserEvent, 'type'>;
-    sort: 'ASC' | 'DESC';
-    size: number;
-    after: Buffer;
-    before: Buffer;
-  }>,
+  appConfig: ApplicationConfig,
+  user: ID,
 ) {
-  const queryString = `page=${Buffer.from(JSON.stringify(params)).toString(
-    'base64',
-  )}`;
-  const path = '/v1/events';
-  const url = `${host}${path}?${queryString}`;
+  const path = `/v1/users/${user}`;
+  const url = `${host}${path}`;
   const body = JSON.stringify({});
   const method = 'GET';
   const options = {
@@ -38,7 +26,6 @@ export default async function fetchEvents(
           path,
           body,
           host,
-          query: queryString,
           appId: appConfig.appId,
         },
         appConfig.appKey,
@@ -54,5 +41,5 @@ export default async function fetchEvents(
   const result = await response.text();
   logger.verbose('response', { status: response.status, result });
 
-  return JSON.parse(result) as User;
+  return JSON.parse(result);
 }
