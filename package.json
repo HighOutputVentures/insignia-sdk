@@ -1,5 +1,5 @@
 {
-  "name": "insignia-sdk",
+  "name": "@highoutputventures/insignia-sdk",
   "version": "0.1.0",
   "description": "Insignia Identity Management NodeJS SDK",
   "main": "node build/index.js",
@@ -8,7 +8,7 @@
     "clean": "rimraf build/",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
-    "postinstall": "npm run build",
+    "prepublish": "npm run build",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.json TS_NODE_FILES=true HTTP_PORT=3000 DEBUG=info*,warn* mocha ./test/{unit,integration}/**/*.spec.ts",
     "typecheck": "tsc --noEmit"
   },
@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/HighOutputVentures/insignia-sdk.git"
   },
-  "author": "Highoutput Ventures",
+  "author": "High Output Ventures",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/HighOutputVentures/insignia-sdk/issues"
@@ -33,6 +33,9 @@
     "tscpaths": "0.0.9"
   },
   "homepage": "https://github.com/HighOutputVentures/insignia-sdk#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.17",
     "@types/chai-as-promised": "^7.1.3",
