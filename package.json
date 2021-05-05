@@ -2,14 +2,14 @@
   "name": "@highoutputventures/insignia-sdk",
   "version": "0.1.1",
   "description": "Insignia Identity Management NodeJS SDK",
-  "main": "node build/index.js",
+  "main": "build/index.js",
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "rimraf build/",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
     "prepublish": "npm run build",
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.json TS_NODE_FILES=true HTTP_PORT=3000 DEBUG=info*,warn* mocha ./test/{unit,integration}/**/*.spec.ts",
+    "test": "cross-env TS_NODE_PROJECT=tsconfig.json TS_NODE_FILES=true mocha ./test/{unit,integration}/**/*.spec.ts",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
