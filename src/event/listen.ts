@@ -8,19 +8,19 @@ class CustomEventEmitter extends EventEmitter {
   }
 }
 
-const userEvents = new CustomEventEmitter();
-
 export default function listenEvents(
   options: { appId: string; socket: SocketIOClient.Socket },
   type?: UserEventType,
 ) {
+  const userEventEmitter = new CustomEventEmitter();
+
   options.socket.on(`${options.appId}:events`, (message: string) => {
     const event: UserEvent = JSON.parse(message);
 
     if (type && type !== event.type) {
       return;
     }
-    userEvents.emit('data', event);
+    userEventEmitter.emit('data', event);
   });
-  return userEvents;
+  return userEventEmitter;
 }
