@@ -1,5 +1,5 @@
 {
-  "name": "insignia-sdk",
+  "name": "@highoutputventures/insignia-sdk",
   "version": "0.1.6",
   "description": "Insignia Identity Management NodeJS SDK",
   "main": "build/index.js",
