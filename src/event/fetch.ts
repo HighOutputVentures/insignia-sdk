@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import config from '../library/config';
 import createSignature from '../library/create-signature';
 import Logger from '../library/logger';
-import { User, UserEvent } from '../type';
+import { ConnectionEdge, CustomResponse, UserEvent } from '../type';
 
 const logger = Logger.tag('fetchEvents');
 
@@ -19,7 +19,7 @@ export default async function fetchEvents(
     after: Buffer;
     before: Buffer;
   }>,
-) {
+): Promise<CustomResponse<ConnectionEdge<UserEvent>>> {
   const queryString = `page=${Buffer.from(JSON.stringify(params)).toString(
     'base64',
   )}`;
@@ -54,5 +54,5 @@ export default async function fetchEvents(
   const result = await response.text();
   logger.verbose('response', { status: response.status, result });
 
-  return JSON.parse(result) as User;
+  return JSON.parse(result);
 }

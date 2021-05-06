@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import config from '../library/config';
 import Logger from '../library/logger';
-import { ID } from '../type';
+import { CustomResponse, ID } from '../type';
 
 const logger = Logger.tag('authenticateUser');
 
@@ -9,9 +9,15 @@ export default async function authenticateUser(
   host = config.host,
   appId: ID,
   input:
-  | { grantType: 'refreshToken'; refreshToken: string }
-  | { grantType: 'password'; username: string; password: string },
-) {
+    | { grantType: 'refreshToken'; refreshToken: string }
+    | { grantType: 'password'; username: string; password: string },
+): Promise<
+  CustomResponse<{
+    accessToken: string;
+    refreshToken: string;
+    expiresIn: number;
+  }>
+> {
   const path = '/v1/authenticate';
   const url = `${host}${path}`;
   const body = JSON.stringify(input);
@@ -32,9 +38,5 @@ export default async function authenticateUser(
   const result = await response.text();
   logger.verbose('response', { status: response.status, result });
 
-  return JSON.parse(result) as {
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-  };
+  return JSON.parse(result);
 }

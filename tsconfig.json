@@ -15,13 +15,18 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "lib": [
+      "es2020",
       "esnext",
       "dom"
-    ]
+    ],
+    "baseUrl": "."
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*",
+  ],
   "exclude": ["node_modules/**/*"]
 }

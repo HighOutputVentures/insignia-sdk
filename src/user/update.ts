@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { ApplicationConfig, ID, User } from '../type';
+import { ApplicationConfig, CustomResponse, ID, User } from '../type';
 import config from '../library/config';
 import createSignature from '../library/create-signature';
 import Logger from '../library/logger';
@@ -11,7 +11,7 @@ export default async function updateUser(
   appConfig: ApplicationConfig,
   user: ID,
   input: Partial<Pick<User, 'isVerified' | 'groups' | 'details'>>,
-) {
+): Promise<CustomResponse<boolean>> {
   const path = `/v1/users/${user}`;
   const url = `${host}${path}`;
   const body = JSON.stringify(input);

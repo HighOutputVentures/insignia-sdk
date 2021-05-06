@@ -2,7 +2,12 @@ import fetch from 'node-fetch';
 import config from '../library/config';
 import createSignature from '../library/create-signature';
 import Logger from '../library/logger';
-import { ApplicationConfig, User } from '../type';
+import {
+  ApplicationConfig,
+  ConnectionEdge,
+  CustomResponse,
+  User,
+} from '../type';
 
 const logger = Logger.tag('readUsers');
 
@@ -16,7 +21,7 @@ export default async function readUsers(
     after: Buffer;
     before: Buffer;
   }>,
-) {
+): Promise<CustomResponse<ConnectionEdge<User>>> {
   const queryString = `page=${Buffer.from(JSON.stringify(params)).toString(
     'base64',
   )}`;
