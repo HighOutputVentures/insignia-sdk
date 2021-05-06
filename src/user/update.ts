@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import R from 'ramda';
 import InvalidRequestError from 'src/library/errors/invalid-request-error';
 import { ApplicationConfig, ID, User } from '../type';
 import config from '../library/config';
@@ -11,11 +12,23 @@ export default async function updateUser(
   host = config.host,
   appConfig: ApplicationConfig,
   user: ID,
-  input: Partial<Pick<User, 'isVerified' | 'groups' | 'details'>>,
+  input: Partial<
+    Pick<User, 'isVerified' | 'groups' | 'details'> & { password: string }
+  >,
 ): Promise<boolean> {
+  let body: any = R.pick(['isVerified', 'groups', 'details'])(input);
+  if (input.password) {
+    body = {
+      ...body,
+      credentials: {
+        password: input.password,
+      },
+    };
+  }
+
   const path = `/v1/users/${user}`;
   const url = `${host}${path}`;
-  const body = JSON.stringify(input);
+  body = JSON.stringify(body);
   const method = 'PATCH';
   const options = {
     method,
