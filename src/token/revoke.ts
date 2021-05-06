@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
+import InvalidRequestError from 'src/library/errors/invalid-request-error';
 import config from '../library/config';
 import Logger from '../library/logger';
-import { CustomResponse, ID } from '../type';
+import { ID } from '../type';
 
 const logger = Logger.tag('revokeToken');
 
@@ -9,7 +10,7 @@ export default async function revokeToken(
   host = config.host,
   appId: ID,
   input: { refreshToken: string },
-): Promise<CustomResponse<boolean>> {
+): Promise<boolean> {
   const path = '/v1/revoke';
   const url = `${host}${path}`;
   const body = JSON.stringify(input);
@@ -27,8 +28,12 @@ export default async function revokeToken(
 
   const response = await fetch(url, options);
 
-  const result = await response.text();
+  const result = await response.json();
   logger.verbose('response', { status: response.status, result });
+
+  if (result.error) {
+    throw new InvalidRequestError(result.error.message, result.error.meta);
+  }
 
   return true;
 }

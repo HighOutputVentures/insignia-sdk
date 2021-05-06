@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
+import InvalidRequestError from 'src/library/errors/invalid-request-error';
 import config from '../library/config';
 import Logger from '../library/logger';
-import { CustomResponse, ID } from '../type';
+import { ID } from '../type';
 
 const logger = Logger.tag('authenticateUser');
 
@@ -11,13 +12,11 @@ export default async function authenticateUser(
   input:
     | { grantType: 'refreshToken'; refreshToken: string }
     | { grantType: 'password'; username: string; password: string },
-): Promise<
-  CustomResponse<{
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-  }>
-> {
+): Promise<{
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+}> {
   const path = '/v1/authenticate';
   const url = `${host}${path}`;
   const body = JSON.stringify(input);
@@ -35,8 +34,12 @@ export default async function authenticateUser(
 
   const response = await fetch(url, options);
 
-  const result = await response.text();
+  const result = await response.json();
   logger.verbose('response', { status: response.status, result });
+
+  if (result.error) {
+    throw new InvalidRequestError(result.error.message, result.error.meta);
+  }
 
   return JSON.parse(result);
 }

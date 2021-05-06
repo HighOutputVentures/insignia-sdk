@@ -1,9 +1,10 @@
 import fetch from 'node-fetch';
 import R from 'ramda';
+import InvalidRequestError from 'src/library/errors/invalid-request-error';
 import config from '../library/config';
 import createSignature from '../library/create-signature';
 import Logger from '../library/logger';
-import { CustomResponse, User } from '../type';
+import { User } from '../type';
 
 const logger = Logger.tag('createUser');
 
@@ -12,7 +13,7 @@ export default async function createUser(
   appConfig: { appId: string; appKey?: string },
   input: Pick<User, 'username'> &
     Partial<Omit<User, 'id' | 'username'>> & { password: string },
-): Promise<CustomResponse<User>> {
+): Promise<User> {
   const path = '/v1/users';
   const url = `${host}${path}`;
   const body = JSON.stringify({
@@ -50,8 +51,13 @@ export default async function createUser(
 
   const response = await fetch(url, options);
 
-  const result = await response.text();
+  const result = await response.json();
+
   logger.verbose('response', { status: response.status, result });
 
-  return JSON.parse(result);
+  if (result.error) {
+    throw new InvalidRequestError(result.error.message, result.error.meta);
+  }
+
+  return result;
 }

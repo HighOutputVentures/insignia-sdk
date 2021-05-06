@@ -1,8 +1,9 @@
 import fetch from 'node-fetch';
+import InvalidRequestError from 'src/library/errors/invalid-request-error';
 import config from '../library/config';
 import createSignature from '../library/create-signature';
 import Logger from '../library/logger';
-import { ApplicationConfig, CustomResponse, ID, User } from '../type';
+import { ApplicationConfig, ID, User } from '../type';
 
 const logger = Logger.tag('readUser');
 
@@ -10,7 +11,7 @@ export default async function readUser(
   host = config.host,
   appConfig: ApplicationConfig,
   user: ID,
-): Promise<CustomResponse<User>> {
+): Promise<User> {
   const path = `/v1/users/${user}`;
   const url = `${host}${path}`;
   const body = JSON.stringify({});
@@ -38,8 +39,12 @@ export default async function readUser(
 
   const response = await fetch(url, options);
 
-  const result = await response.text();
+  const result = await response.json();
   logger.verbose('response', { status: response.status, result });
+
+  if (result.error) {
+    throw new InvalidRequestError(result.error.message, result.error.meta);
+  }
 
   return JSON.parse(result);
 }

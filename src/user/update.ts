@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
-import { ApplicationConfig, CustomResponse, ID, User } from '../type';
+import InvalidRequestError from 'src/library/errors/invalid-request-error';
+import { ApplicationConfig, ID, User } from '../type';
 import config from '../library/config';
 import createSignature from '../library/create-signature';
 import Logger from '../library/logger';
@@ -11,7 +12,7 @@ export default async function updateUser(
   appConfig: ApplicationConfig,
   user: ID,
   input: Partial<Pick<User, 'isVerified' | 'groups' | 'details'>>,
-): Promise<CustomResponse<boolean>> {
+): Promise<boolean> {
   const path = `/v1/users/${user}`;
   const url = `${host}${path}`;
   const body = JSON.stringify(input);
@@ -39,8 +40,12 @@ export default async function updateUser(
 
   const response = await fetch(url, options);
 
-  const result = await response.text();
+  const result = await response.json();
   logger.verbose('response', { status: response.status, result });
+
+  if (result.error) {
+    throw new InvalidRequestError(result.error.message, result.error.meta);
+  }
 
   return true;
 }

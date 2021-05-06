@@ -31,10 +31,6 @@ export type UserEvent = {
   | { type: UserEventType.UserDeleted }
 );
 
-export type CustomResponse<T = any> = {
-  error?: { code: string; message: string; meta?: Record<string, any> };
-} & T;
-
 export type User = {
   id: ID;
   username: string;

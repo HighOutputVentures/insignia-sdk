@@ -1,8 +1,9 @@
 import fetch from 'node-fetch';
+import InvalidRequestError from 'src/library/errors/invalid-request-error';
 import config from '../library/config';
 import createSignature from '../library/create-signature';
 import Logger from '../library/logger';
-import { ConnectionEdge, CustomResponse, UserEvent } from '../type';
+import { ConnectionEdge, UserEvent } from '../type';
 
 const logger = Logger.tag('fetchEvents');
 
@@ -19,7 +20,7 @@ export default async function fetchEvents(
     after: Buffer;
     before: Buffer;
   }>,
-): Promise<CustomResponse<ConnectionEdge<UserEvent>>> {
+): Promise<ConnectionEdge<UserEvent>> {
   const queryString = `page=${Buffer.from(JSON.stringify(params)).toString(
     'base64',
   )}`;
@@ -51,8 +52,11 @@ export default async function fetchEvents(
 
   const response = await fetch(url, options);
 
-  const result = await response.text();
+  const result = await response.json();
   logger.verbose('response', { status: response.status, result });
+  if (result.error) {
+    throw new InvalidRequestError(result.error.message, result.error.meta);
+  }
 
   return JSON.parse(result);
 }
