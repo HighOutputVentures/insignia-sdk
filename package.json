@@ -1,10 +1,10 @@
 {
   "name": "@highoutputventures/insignia-sdk",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Insignia Identity Management NodeJS SDK",
   "main": "build/index.js",
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc --project tsconfig.build.json",
     "clean": "rimraf build/",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
