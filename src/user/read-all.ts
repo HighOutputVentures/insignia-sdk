@@ -20,7 +20,7 @@ export default async function readUsers(
   const queryString = `page=${Buffer.from(JSON.stringify(params)).toString(
     'base64',
   )}`;
-  const path = `/v1/users`;
+  const path = '/v1/users';
   const url = `${host}${path}?${queryString}`;
   const body = JSON.stringify({});
   const method = 'GET';

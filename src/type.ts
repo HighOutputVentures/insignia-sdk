@@ -18,9 +18,9 @@ export type UserEvent = {
   dateTimeCreated: Date;
 } & (
   | {
-      type: UserEventType.UserCreated;
-      body: User & { credentials: { password: string } };
-    }
+    type: UserEventType.UserCreated;
+    body: User & { credentials: { password: string } };
+  }
   | { type: UserEventType.UserUpdated; body: Partial<Omit<User, 'id'>> }
   | { type: UserEventType.UserDeleted }
 );

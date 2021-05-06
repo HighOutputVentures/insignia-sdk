@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility, no-dupe-class-members */
 import { EventEmitter } from 'events';
 import { UserEvent, UserEventType } from '../type';
 
 class CustomEventEmitter extends EventEmitter {
   on(input: UserEventType, cb: (data: UserEvent) => any): this;
+
   on(input: 'data', cb: (data: UserEvent) => any): this;
+
   on(input: UserEventType | 'data', cb: (data: UserEvent) => any) {
     super.on(input, cb as any);
     return this;

@@ -12,18 +12,21 @@ export default class WebClient {
   public get user() {
     const client = this as WebClient;
     return {
-      create: (input: Parameters<typeof createUser>[2]) =>
-        createUser(client.opts.host, client.opts, input),
+      create: (
+        input: Parameters<typeof createUser>[2],
+      ) => createUser(client.opts.host, client.opts, input),
     };
   }
 
   public get token() {
     const client = this as WebClient;
     return {
-      authenticate: (input: Parameters<typeof authenticateUser>[2]) =>
-        authenticateUser(client.opts.host, client.opts.appId, input),
-      revoke: (input: Parameters<typeof revokeToken>[2]) =>
-        revokeToken(client.opts.host, client.opts.appId, input),
+      authenticate: (
+        input: Parameters<typeof authenticateUser>[2],
+      ) => authenticateUser(client.opts.host, client.opts.appId, input),
+      revoke: (
+        input: Parameters<typeof revokeToken>[2],
+      ) => revokeToken(client.opts.host, client.opts.appId, input),
     };
   }
 }

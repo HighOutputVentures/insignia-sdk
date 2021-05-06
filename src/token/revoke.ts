@@ -10,7 +10,7 @@ export default async function revokeToken(
   appId: ID,
   input: { refreshToken: string },
 ) {
-  const path = `/v1/revoke`;
+  const path = '/v1/revoke';
   const url = `${host}${path}`;
   const body = JSON.stringify(input);
   const method = 'POST';
