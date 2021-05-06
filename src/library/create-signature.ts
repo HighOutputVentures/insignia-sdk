@@ -1,5 +1,6 @@
 import { hmac } from 'highoutput-utilities';
 import R from 'ramda';
+import { URL } from 'url';
 
 export default function createSignature(
   params: {
@@ -14,7 +15,7 @@ export default function createSignature(
 ) {
   const stringToSign = [
     params.method,
-    params.host,
+    new URL(params.host).hostname,
     params.path,
     params.appId,
     params.query,
