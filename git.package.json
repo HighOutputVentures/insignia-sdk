@@ -1,5 +1,5 @@
 {
-  "name": "insignia-sdk",
+  "name": "@highoutputventures/insignia-sdk",
   "version": "0.1.6",
   "description": "Insignia Identity Management NodeJS SDK",
   "main": "build/index.js",
@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.json TS_NODE_FILES=true mocha ./test/{unit,integration}/**/*.spec.ts",
-    "postinstall": "npm run build",
+    "prepublish": "npm run build",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
