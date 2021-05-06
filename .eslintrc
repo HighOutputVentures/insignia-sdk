@@ -1,32 +1,42 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "airbnb-base",
-    "plugin:@typescript-eslint/recommended",
+  "plugins": [
+    "@typescript-eslint",
     "prettier",
-    "prettier/@typescript-eslint"
+    "import"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "env": {
     "node": true,
     "mocha": true
   },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".ts"]
-      }
-    }
-  },
   "rules": {
-    "indent": "off",
-    "class-methods-use-this": "off",
-    "no-dupe-class-members": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never"
+      }
+   ],
+   "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/prefer-interface": "off",
     "func-names": "off",
-    "no-unused-expressions": "off",
-    "import/extensions": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/indent": ["error", 2],
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "class-methods-use-this": "off",
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": "off",
+    "import/prefer-default-export": "off",
+    "prettier/prettier": ["error", {
+      "endOfLine":"auto"
+    }]
   }
 }

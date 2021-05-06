@@ -11,7 +11,7 @@ export default async function createUser(
   host = config.host,
   appConfig: { appId: string; appKey?: string },
   input: Pick<User, 'username'> &
-  Partial<Omit<User, 'id' | 'username'>> & { password: string },
+    Partial<Omit<User, 'id' | 'username'>> & { password: string },
 ) {
   const path = '/v1/users';
   const url = `${host}${path}`;
@@ -22,17 +22,17 @@ export default async function createUser(
   const method = 'POST';
   const signature: Record<string, string> = appConfig.appKey
     ? {
-      Signature: createSignature(
-        {
-          method,
-          path,
-          body,
-          host,
-          appId: appConfig.appId,
-        },
-        appConfig.appKey,
-      ),
-    }
+        Signature: createSignature(
+          {
+            method,
+            path,
+            body,
+            host,
+            appId: appConfig.appId,
+          },
+          appConfig.appKey,
+        ),
+      }
     : {};
   const options = {
     method,

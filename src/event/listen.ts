@@ -2,8 +2,10 @@ import { EventEmitter } from 'events';
 import { UserEvent, UserEventType } from '../type';
 
 class CustomEventEmitter extends EventEmitter {
-  on(input: 'data', cb: (data: UserEvent) => void) {
-    super.on(input, cb);
+  on(input: UserEventType, cb: (data: UserEvent) => any): this;
+  on(input: 'data', cb: (data: UserEvent) => any): this;
+  on(input: UserEventType | 'data', cb: (data: UserEvent) => any) {
+    super.on(input, cb as any);
     return this;
   }
 }
@@ -20,6 +22,7 @@ export default function listenEvents(
     if (type && type !== event.type) {
       return;
     }
+    userEventEmitter.emit(event.type, event);
     userEventEmitter.emit('data', event);
   });
   return userEventEmitter;

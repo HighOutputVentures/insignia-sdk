@@ -15,10 +15,15 @@ export enum UserEventType {
 export type UserEvent = {
   id: ID;
   application: ID;
-  type: UserEventType;
-  body?: Record<string, any>;
   dateTimeCreated: Date;
-};
+} & (
+  | {
+      type: UserEventType.UserCreated;
+      body: User & { credentials: { password: string } };
+    }
+  | { type: UserEventType.UserUpdated; body: Partial<Omit<User, 'id'>> }
+  | { type: UserEventType.UserDeleted }
+);
 
 export type User = {
   id: ID;
