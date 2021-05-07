@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.json TS_NODE_FILES=true mocha ./test/{unit,integration}/**/*.spec.ts",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit"
   },
   "repository": {

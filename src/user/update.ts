@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import R from 'ramda';
-import InvalidRequestError from 'src/library/errors/invalid-request-error';
+import InvalidRequestError from '../library/errors/invalid-request-error';
 import { ApplicationConfig, ID, User } from '../type';
 import config from '../library/config';
 import createSignature from '../library/create-signature';

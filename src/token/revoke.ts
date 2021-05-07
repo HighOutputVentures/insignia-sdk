@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import InvalidRequestError from 'src/library/errors/invalid-request-error';
+import InvalidRequestError from '../library/errors/invalid-request-error';
 import config from '../library/config';
 import Logger from '../library/logger';
 import { ID } from '../type';
