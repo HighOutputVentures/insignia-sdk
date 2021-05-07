@@ -60,12 +60,11 @@ export default class ServerClient {
           id,
           input,
         ),
-      delete: (id: ID, details: Parameters<typeof deleteUser>[3]) =>
+      delete: (id: ID) =>
         deleteUser(
           client.opts.host,
           R.pick(['appId', 'appKey'])(client.opts),
           id,
-          details,
         ),
     };
   }

@@ -20,6 +20,7 @@ export type ConnectionEdge<TNode = any> = {
 
 export type UserEvent = {
   id: ID;
+  user: ID;
   application: ID;
   dateTimeCreated: Date;
 } & (
@@ -31,7 +32,7 @@ export type UserEvent = {
       type: UserEventType.UserUpdated;
       body: Partial<Omit<User, 'id'> & { credentials: { password: string } }>;
     }
-  | { type: UserEventType.UserDeleted; body?: { details: Record<string, any> } }
+  | { type: UserEventType.UserDeleted }
 );
 
 export type User = {

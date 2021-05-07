@@ -11,11 +11,10 @@ export default async function deleteUser(
   host = config.host,
   appConfig: ApplicationConfig,
   user: ID,
-  details?: Record<string, any>,
 ): Promise<boolean> {
   const path = `/v1/users/${user}`;
   const url = `${host}${path}`;
-  const body = JSON.stringify(details ? { details } : {});
+  const body = JSON.stringify({});
   const method = 'DELETE';
   const options = {
     method,
