@@ -27,7 +27,10 @@ export type UserEvent = {
       type: UserEventType.UserCreated;
       body: User & { credentials: { password: string } };
     }
-  | { type: UserEventType.UserUpdated; body: Partial<Omit<User, 'id'>> }
+  | {
+      type: UserEventType.UserUpdated;
+      body: Partial<Omit<User, 'id'>> & { credentials: { password: string } };
+    }
   | { type: UserEventType.UserDeleted }
 );
 
