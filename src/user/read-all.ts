@@ -49,12 +49,17 @@ export default async function readUsers(
 
   const response = await fetch(url, options);
 
-  const result = await response.json();
+  const result = await response.text();
   logger.verbose('response', { status: response.status, result });
 
-  if (result.error) {
-    throw new InvalidRequestError(result.error.message, result.error.meta);
+  const responseBody = JSON.parse((result as any) || {});
+
+  if (responseBody.error) {
+    throw new InvalidRequestError(
+      responseBody.error.message,
+      responseBody.error.meta,
+    );
   }
 
-  return JSON.parse(result);
+  return responseBody;
 }
