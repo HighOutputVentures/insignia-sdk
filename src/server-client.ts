@@ -1,12 +1,10 @@
 import R from 'ramda';
-import io from 'socket.io-client';
 import deleteUser from './user/delete';
 import listenEvents from './event/listen';
 import fetchEvents from './event/fetch';
 import updateUser from './user/update';
 import createUser from './user/create';
 import { ID } from './type';
-import config from './library/config';
 import readUser from './user/read';
 import readUsers from './user/read-all';
 
@@ -15,21 +13,10 @@ export default class ServerClient {
     appId: string;
     appKey: string;
     host?: string;
-    socket: SocketIOClient.Socket;
   };
 
   public constructor(opts: { appId: string; appKey: string; host?: string }) {
-    this.opts = {
-      ...opts,
-      socket: io(`${opts.host || config.host}`, {
-        reconnectionDelayMax: 10000,
-        path: '/events',
-        query: {
-          appId: opts.appId,
-          appKey: opts.appKey,
-        },
-      }),
-    };
+    this.opts = opts;
   }
 
   public get user() {
@@ -74,7 +61,11 @@ export default class ServerClient {
     return {
       listen: ((input: Parameters<typeof listenEvents>[1]) =>
         listenEvents(
-          { appId: client.opts.appId, socket: client.opts.socket },
+          {
+            appId: client.opts.appId,
+            appKey: client.opts.appKey,
+            host: client.opts.host,
+          },
           input,
         )) as (
         type: Parameters<typeof listenEvents>[1],

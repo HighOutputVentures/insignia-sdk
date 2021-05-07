@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility, no-dupe-class-members */
 import { EventEmitter } from 'events';
+import config from 'src/library/config';
 import { UserEvent, UserEventType } from '../type';
 
 class CustomEventEmitter extends EventEmitter {
@@ -14,15 +15,34 @@ class CustomEventEmitter extends EventEmitter {
 }
 
 export default function listenEvents(
-  options: { appId: string; socket: SocketIOClient.Socket },
-  type?: UserEventType,
+  appConfig: {
+    host?: string;
+    appId: string;
+    appKey: string;
+  },
+  options: {
+    startFromLastEventCursor?: string | false | null;
+    type?: UserEventType;
+    reconnect?: boolean;
+  },
 ) {
+  const { startFromLastEventCursor } = options;
+
+  const socket = io(`${appConfig.host || config.host}`, {
+    reconnectionDelayMax: 10000,
+    reconnection: options.reconnect || false,
+    path: '/events',
+    query: {
+      appId: appConfig.appId,
+      appKey: appConfig.appKey,
+      startFromLastEventCursor,
+    },
+  });
   const userEventEmitter = new CustomEventEmitter();
 
-  options.socket.on(`${options.appId}:events`, (message: string) => {
+  socket.on(`${appConfig.appId}:events`, (message: string) => {
     const event: UserEvent = JSON.parse(message);
-
-    if (type && type !== event.type) {
+    if (options.type && options.type !== event.type) {
       return;
     }
     userEventEmitter.emit(event.type, event);
