@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility, no-dupe-class-members */
 import { EventEmitter } from 'events';
-import config from 'src/library/config';
+import config from '../library/config';
 import { UserEvent, UserEventType } from '../type';
 
 class CustomEventEmitter extends EventEmitter {
