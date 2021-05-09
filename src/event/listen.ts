@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility, no-dupe-class-members */
 import { EventEmitter } from 'events';
+import io from 'socket.io-client';
 import config from '../library/config';
 import { UserEvent, UserEventType } from '../type';
 
