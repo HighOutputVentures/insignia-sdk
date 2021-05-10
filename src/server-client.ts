@@ -7,6 +7,8 @@ import createUser from './user/create';
 import { ID } from './type';
 import readUser from './user/read';
 import readUsers from './user/read-all';
+import authenticateUser from './token/authenticate';
+import revokeToken from './token/revoke';
 
 export default class ServerClient {
   private opts: {
@@ -76,6 +78,16 @@ export default class ServerClient {
           R.pick(['appId', 'appKey'])(client.opts),
           input,
         ),
+    };
+  }
+
+  public get token() {
+    const client = this as ServerClient;
+    return {
+      authenticate: (input: Parameters<typeof authenticateUser>[2]) =>
+        authenticateUser(client.opts.host, client.opts.appId, input),
+      revoke: (input: Parameters<typeof revokeToken>[2]) =>
+        revokeToken(client.opts.host, client.opts.appId, input),
     };
   }
 }

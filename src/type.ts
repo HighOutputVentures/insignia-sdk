@@ -24,6 +24,7 @@ export type UserEvent = {
   externalId?: ID;
   application: ID;
   dateTimeCreated: Date;
+  cursor: string;
 } & (
   | {
       type: UserEventType.UserCreated;
