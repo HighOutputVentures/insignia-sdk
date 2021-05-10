@@ -21,6 +21,7 @@ export type ConnectionEdge<TNode = any> = {
 export type UserEvent = {
   id: ID;
   user: ID;
+  externalId?: ID;
   application: ID;
   dateTimeCreated: Date;
 } & (
@@ -37,6 +38,7 @@ export type UserEvent = {
 
 export type User = {
   id: ID;
+  externalId?: ID;
   username: string;
   groups?: ID[];
   details?: Record<string, any>;
