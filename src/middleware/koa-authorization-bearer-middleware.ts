@@ -1,5 +1,6 @@
 import Application, { Context, Middleware } from 'koa';
-import authorizeBearerUser, { TokenClaims } from 'src/token/authorize-bearer';
+import { TokenClaims } from '../type';
+import authorizeBearerUser from '../token/authorize-bearer';
 
 export default function koaAuthorizationBearerMiddleware(
   appKey: string,

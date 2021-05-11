@@ -1,15 +1,8 @@
 import tryToCatch from 'try-to-catch';
 import { jwt } from 'highoutput-auth';
+import { TokenClaims } from '../type';
 import AccessTokenExpiredError from '../library/errors/access-token-expired-error';
 import ForbiddenError from '../library/errors/invalid-request-error';
-
-export type TokenClaims = {
-  id: string;
-  externalId?: string;
-  iat: number;
-  exp: number;
-  sub: string;
-};
 
 export default async function authorizeBearerUser(
   appKey: string,

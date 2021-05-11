@@ -46,3 +46,11 @@ export type User = {
   isEmailVerified: boolean;
   isVerified: boolean;
 };
+
+export type TokenClaims = {
+  id: string;
+  externalId?: string;
+  iat: number;
+  exp: number;
+  sub: string;
+};
