@@ -3,7 +3,11 @@ import authorizeBearerUser, { TokenClaims } from 'src/token/authorize-bearer';
 
 export default async function koaAuthorizationBearerMiddleware(
   appKey: string,
-  fn?: (claims: TokenClaims, next: Application.Next) => Promise<any>,
+  fn?: (
+    claims: TokenClaims,
+    ctx: Context,
+    next: Application.Next,
+  ) => Promise<any>,
 ): Promise<any> {
   const middleWare: Middleware = async (ctx: Context, next) => {
     const { authorization } = ctx.headers;
@@ -13,7 +17,7 @@ export default async function koaAuthorizationBearerMiddleware(
     const claims = await authorizeBearerUser(appKey, authorization);
 
     if (fn) {
-      return fn(claims, next);
+      return fn(claims, ctx, next);
     }
 
     ctx.state.claims = claims;

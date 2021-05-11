@@ -87,7 +87,7 @@ export default class ServerClient {
     const client = this as ServerClient;
     return {
       koaAuthorizationBearer: (
-        input: Parameters<typeof koaAuthorizationBearerMiddleware>[1],
+        input?: Parameters<typeof koaAuthorizationBearerMiddleware>[1],
       ) => koaAuthorizationBearerMiddleware(client.opts.appKey, input),
     };
   }
