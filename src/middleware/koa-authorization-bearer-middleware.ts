@@ -1,14 +1,14 @@
 import Application, { Context, Middleware } from 'koa';
 import authorizeBearerUser, { TokenClaims } from 'src/token/authorize-bearer';
 
-export default async function koaAuthorizationBearerMiddleware(
+export default function koaAuthorizationBearerMiddleware(
   appKey: string,
   fn?: (
     claims: TokenClaims,
     ctx: Context,
     next: Application.Next,
   ) => Promise<any>,
-): Promise<any> {
+): Middleware {
   const middleWare: Middleware = async (ctx: Context, next) => {
     const { authorization } = ctx.headers;
     if (!authorization) {
