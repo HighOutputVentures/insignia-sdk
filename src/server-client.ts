@@ -9,6 +9,8 @@ import readUser from './user/read';
 import readUsers from './user/read-all';
 import authenticateUser from './token/authenticate';
 import revokeToken from './token/revoke';
+import authorizeBearerUser from './token/authorize-bearer';
+import koaAuthorizationBearerMiddleware from './middleware/koa-authorization-bearer-middleware';
 
 export default class ServerClient {
   private opts: {
@@ -81,11 +83,22 @@ export default class ServerClient {
     };
   }
 
+  public get middleware() {
+    const client = this as ServerClient;
+    return {
+      koaAuthorizationBearer: (
+        input: Parameters<typeof koaAuthorizationBearerMiddleware>[1],
+      ) => koaAuthorizationBearerMiddleware(client.opts.appKey, input),
+    };
+  }
+
   public get token() {
     const client = this as ServerClient;
     return {
       authenticate: (input: Parameters<typeof authenticateUser>[2]) =>
         authenticateUser(client.opts.host, client.opts.appId, input),
+      authorizeBearer: (input: Parameters<typeof authenticateUser>[1]) =>
+        authorizeBearerUser(client.opts.appKey, input),
       revoke: (input: Parameters<typeof revokeToken>[2]) =>
         revokeToken(client.opts.host, client.opts.appId, input),
     };

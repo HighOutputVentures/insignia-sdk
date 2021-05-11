@@ -14,7 +14,7 @@ export default async function authenticateUser(
     | { grantType: 'password'; username: string; password: string },
 ): Promise<{
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
   expiresIn: number;
 }> {
   const path = '/v1/authenticate';
