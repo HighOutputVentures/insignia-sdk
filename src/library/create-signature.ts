@@ -1,6 +1,5 @@
-import { hmac } from 'highoutput-utilities';
-import R from 'ramda';
-import { URL } from 'url';
+import crypto from 'crypto';
+import Url from 'url-parse';
 
 export default function createSignature(
   params: {
@@ -15,14 +14,18 @@ export default function createSignature(
 ) {
   const stringToSign = [
     params.method,
-    new URL(params.host).hostname,
+    new Url(params.host).hostname,
     params.path,
     params.appId,
     params.query,
     params.body,
   ]
-    .filter(R.identity)
+    .filter((value) => !!value)
     .join('\n');
 
-  return hmac(stringToSign, appKey).toString('base64');
+  return crypto
+    .createHmac('sha256', appKey)
+    .update(stringToSign)
+    .digest()
+    .toString('base64');
 }

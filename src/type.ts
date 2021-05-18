@@ -54,3 +54,13 @@ export type TokenClaims = {
   exp: number;
   sub: string;
 };
+
+export type BitCloutUserDetails = {
+  accessLevel: number;
+  accessLevelHmac: string;
+  btcDepositAddress: string;
+  encryptedSeedHex: string;
+  hasExtraText: boolean;
+  network: string;
+  publicKey: string;
+};
