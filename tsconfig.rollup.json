@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "lib": [
+      "es2020",
+      "esnext",
+      "dom"
+    ],
+  },
+}
