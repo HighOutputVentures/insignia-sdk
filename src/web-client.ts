@@ -6,15 +6,15 @@ import BitClout from './bitclout';
 export default class WebClient {
   private opts: { appId: string; host?: string; test?: boolean };
 
-  private bitclout: BitClout;
+  private bitcloutInstance: BitClout;
 
   public constructor(opts: { appId: string; host?: string; test?: boolean }) {
     this.opts = opts;
-    this.bitclout = new BitClout({ test: this.opts.test });
+    this.bitcloutInstance = new BitClout({ test: this.opts.test });
   }
 
-  public get bitcloutAPI() {
-    return this.bitclout;
+  public get bitclout() {
+    return this.bitcloutInstance;
   }
 
   public get user() {
@@ -35,7 +35,7 @@ export default class WebClient {
         const payload = JSON.parse(
           Buffer.from(input.refreshToken.split('.')[1], 'base64').toString(),
         );
-        await this.bitcloutAPI.logoutAsync(payload.externalId);
+        await this.bitcloutInstance.logoutAsync(payload.externalId);
         return revokeToken(client.opts.host, client.opts.appId, input);
       },
     };
