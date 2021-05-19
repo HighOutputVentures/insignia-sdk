@@ -1,4 +1,4 @@
-import config from '../../../library/config';
+import config from '../../library/config';
 
 /* eslint-disable no-undef */
 export default async function authenticateUser(
@@ -37,7 +37,7 @@ export default async function authenticateUser(
   const responseBody = JSON.parse((result as any) || {});
 
   if (responseBody.error) {
-    throw responseBody.error;
+    throw new Error(responseBody.error.message);
   }
 
   return responseBody;

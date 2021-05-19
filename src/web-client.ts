@@ -1,7 +1,7 @@
-import { Buffer } from 'buffer';
-import BitClout from '../bitclout';
-import authenticateUser from './library/authenticate-user';
-import revokeToken from './library/revoke-token';
+import createUser from './user/create';
+import authenticateUser from './token/authenticate';
+import revokeToken from './token/revoke';
+import BitClout from './bitclout';
 
 export default class WebClient {
   private opts: { appId: string; host?: string; test?: boolean };
@@ -10,12 +10,19 @@ export default class WebClient {
 
   public constructor(opts: { appId: string; host?: string; test?: boolean }) {
     this.opts = opts;
-    this.opts.test = this.opts.test || false;
     this.bitclout = new BitClout({ test: this.opts.test });
   }
 
   public get bitcloutAPI() {
     return this.bitclout;
+  }
+
+  public get user() {
+    const client = this as WebClient;
+    return {
+      create: (input: Parameters<typeof createUser>[2]) =>
+        createUser(client.opts.host, client.opts, input),
+    };
   }
 
   public get token() {

@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import { EventEmitter } from 'events';
 import * as uuid from 'uuid';
-import config from '../library/config';
+import config from './library/config';
 
 export default class BitClout {
   private opts: { api: string; test?: boolean };

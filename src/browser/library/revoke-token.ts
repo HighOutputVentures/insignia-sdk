@@ -1,4 +1,4 @@
-import config from '../../../library/config';
+import config from '../../library/config';
 
 export default async function revokeToken(
   host = config.host,
@@ -25,7 +25,7 @@ export default async function revokeToken(
   const responseBody = JSON.parse((result as any) || {});
 
   if (responseBody.error) {
-    throw responseBody.error;
+    throw new Error(responseBody.error.message);
   }
 
   return true;

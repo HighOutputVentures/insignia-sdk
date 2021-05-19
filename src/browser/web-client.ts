@@ -1,7 +1,8 @@
-import createUser from '../../user/create';
-import authenticateUser from '../../token/authenticate';
-import revokeToken from '../../token/revoke';
+import { Buffer } from 'buffer';
 import BitClout from '../bitclout';
+import authenticateUser from './library/authenticate-user';
+import createUser from './library/create-user';
+import revokeToken from './library/revoke-token';
 
 export default class WebClient {
   private opts: { appId: string; host?: string; test?: boolean };
