@@ -1,14 +1,9 @@
-import fetch from 'node-fetch';
-import InvalidRequestError from '../library/errors/invalid-request-error';
-import config from '../library/config';
-import Logger from '../library/logger';
-import { ID } from '../type';
+import config from '../../library/config';
 
-const logger = Logger.tag('authenticateUser');
-
+/* eslint-disable no-undef */
 export default async function authenticateUser(
   host = config.host,
-  appId: ID,
+  appId: string,
   input:
     | {
         grantType: 'bitclout';
@@ -35,20 +30,14 @@ export default async function authenticateUser(
     body,
   };
 
-  logger.verbose('request', { url, options });
-
   const response = await fetch(url, options);
 
   const result = await response.text();
-  logger.verbose('response', { status: response.status, result });
 
   const responseBody = JSON.parse((result as any) || {});
 
   if (responseBody.error) {
-    throw new InvalidRequestError(
-      responseBody.error.message,
-      responseBody.error.meta,
-    );
+    throw new Error(responseBody.error.message);
   }
 
   return responseBody;

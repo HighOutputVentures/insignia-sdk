@@ -6,7 +6,7 @@
     "import"
   ],
   "parserOptions": {
-    "project": "./tsconfig.build.json"
+    "project": "./tsconfig.eslint.json"
   },
   "extends": [
     "airbnb-typescript/base",
