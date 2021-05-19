@@ -10,13 +10,13 @@ An Authefy software development kit for javascript. Simplifies the use of Authef
 To use with node:
 
 ```bash
-$ npm install &lt;package&gt;
+$ npm install package;
 ```
 
 Then import sdk:
 
 ```typescript
-import * as authefy from &lt;package&gt;
+import * as authefy from package;
 ```
 
 We are currently supporting `esm` and `umd`. To use it directly in the browser:
@@ -31,12 +31,12 @@ Then import the library from browser:
 
 ```html
 // umd
-&lt;script src="./umd/index.min.js"&gt;&lt;/script&gt;
+<script src="./umd/index.min.js"></script>;
 
 // esm
-&lt;script type="module"&gt;
+<script type="module">
     import * as authefy from "./esm/index.js" 
-&lt;/script&gt;
+</script>
 ```
 
 ## Documentation
