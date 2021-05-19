@@ -2594,18 +2594,27 @@ class BitClout {
     sendJWTSync(payload) {
         return this.send({ method: 'jwt', payload });
     }
-    get pos() {
+    get position() {
         return {
             x: window.outerHeight / 2 + window.screenY - 500,
             y: window.outerWidth / 2 + window.screenX - 400,
         };
     }
     logoutAsync(publicKey) {
-        return new Promise((resolve) => {
-            this.identityWindow = window.open(`${this.opts.api}/logout?publicKey=${publicKey}`, 'logout', `toolbar=no, width=800, height=1000, top=${this.pos.x}, left=${this.pos.y}`);
-            this.eventEmitter.on('logout', (message) => {
-                return resolve(message);
-            });
+        return new Promise((resolve, reject) => {
+            try {
+                const queries = [`publicKey=${publicKey}`];
+                if (this.opts.test) {
+                    queries.push('testnet=true');
+                }
+                this.identityWindow = window.open(`${this.opts.api}/logout?${queries.join('&')}`, 'logout', `toolbar=no, width=800, height=1000, top=${this.position.x}, left=${this.position.y}`);
+                this.eventEmitter.on('logout', (message) => {
+                    return resolve(message);
+                });
+            }
+            catch (error) {
+                reject(error);
+            }
         });
     }
     async loginAsync(accessLevel) {
@@ -2618,7 +2627,7 @@ class BitClout {
                 if (accessLevel !== undefined && accessLevel !== null) {
                     queries.push(`accessLevelRequest=${accessLevel}`);
                 }
-                this.identityWindow = window.open(`${this.opts.api}/log-in${queries.length > 0 ? '?' : ''}${queries.join('&')}`, undefined, `toolbar=no, width=800, height=1000, top=${this.pos.x}, left=${this.pos.y}`);
+                this.identityWindow = window.open(`${this.opts.api}/log-in${queries.length > 0 ? '?' : ''}${queries.join('&')}`, undefined, `toolbar=no, width=800, height=1000, top=${this.position.x}, left=${this.position.y}`);
                 this.eventEmitter.on('login', (message) => {
                     return resolve(message);
                 });

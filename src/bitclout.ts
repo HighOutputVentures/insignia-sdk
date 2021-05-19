@@ -31,7 +31,7 @@ export default class BitClout {
     );
   }
 
-  public async handleMessage(
+  private async handleMessage(
     message: MessageEvent<{
       id: string;
       service: string;
@@ -114,7 +114,7 @@ export default class BitClout {
     });
   }
 
-  public async send<T>(params: { method: 'info' | 'jwt'; payload: any }) {
+  private async send<T>(params: { method: 'info' | 'jwt'; payload: any }) {
     return new Promise<T>((resolve, reject) => {
       if (!this.iframe) {
         reject(new Error('Not initialized yet'));
@@ -144,7 +144,7 @@ export default class BitClout {
     return this.send<string>({ method: 'jwt', payload });
   }
 
-  public get pos() {
+  public get position() {
     return {
       x: window.outerHeight / 2 + window.screenY - 500,
       y: window.outerWidth / 2 + window.screenX - 400,
@@ -152,15 +152,23 @@ export default class BitClout {
   }
 
   public logoutAsync(publicKey: string) {
-    return new Promise((resolve) => {
-      this.identityWindow = window.open(
-        `${this.opts.api}/logout?publicKey=${publicKey}`,
-        'logout',
-        `toolbar=no, width=800, height=1000, top=${this.pos.x}, left=${this.pos.y}`,
-      );
-      this.eventEmitter.on('logout', (message) => {
-        return resolve(message);
-      });
+    return new Promise((resolve, reject) => {
+      try {
+        const queries = [`publicKey=${publicKey}`];
+        if (this.opts.test) {
+          queries.push('testnet=true');
+        }
+        this.identityWindow = window.open(
+          `${this.opts.api}/logout?${queries.join('&')}`,
+          'logout',
+          `toolbar=no, width=800, height=1000, top=${this.position.x}, left=${this.position.y}`,
+        );
+        this.eventEmitter.on('logout', (message) => {
+          return resolve(message);
+        });
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
@@ -183,7 +191,7 @@ export default class BitClout {
               queries.length > 0 ? '?' : ''
             }${queries.join('&')}`,
             undefined,
-            `toolbar=no, width=800, height=1000, top=${this.pos.x}, left=${this.pos.y}`,
+            `toolbar=no, width=800, height=1000, top=${this.position.x}, left=${this.position.y}`,
           );
           this.eventEmitter.on('login', (message) => {
             return resolve(message);
