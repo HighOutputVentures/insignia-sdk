@@ -123,7 +123,7 @@ Handles functions for client's frontend side.
 
 - #### **Getter: bitclout**
 
-  - Returns: [&lt;BitClout&gt;](https://github.com/iammeosjin/http-server/blob/master/README.md#class-bitclout) 
+  - Returns: [&lt;BitClout&gt;](https://github.com/HighOutputVentures/insignia-sdk#class-bitclout) 
 
 - #### **Getter: user**
 
@@ -135,7 +135,7 @@ Handles functions for client's frontend side.
       - `groups` &lt;string[]&gt; groups id in array
       - `details` &lt;Object&gt; user additional information
       
-    - Returns:&lt;Promise&gt; Fufills with &lt;[User](https://github.com/iammeosjin/http-server/blob/master/README.md#object-user)&gt; upon success. 
+    - Returns:&lt;Promise&gt; Fufills with &lt;[User](https://github.com/HighOutputVentures/insignia-sdk#object-user)&gt; upon success. 
     
       ```typescript
       await authefyWebClient.user.create({ username: 'john', password: 'doe' })
@@ -221,7 +221,7 @@ Handles functions for client's frontend side.
       - `groups` &lt;string[]&gt; groups id in array
       - `details` &lt;Object&gt; user additional information
       
-    - Returns:&lt;Promise&gt; Fufills with &lt;[User](https://github.com/iammeosjin/http-server/blob/master/README.md#object-user)&gt; upon success. 
+    - Returns:&lt;Promise&gt; Fufills with &lt;[User](https://github.com/HighOutputVentures/insignia-sdk#object-user)&gt; upon success. 
     
       ```typescript
       await authefyServerClient.user.create({ 
@@ -254,6 +254,14 @@ Handles functions for client's frontend side.
     
       ```typescript
       await authefyServerClient.user.delete('user123')
+      // true
+      ```
+  - **Method: read(id)**
+    - `id` &lt;string&gt; user id to query
+    - Returns:&lt;Promise&gt; Fufills with [<User>](https://github.com/HighOutputVentures/insignia-sdk#object-user) upon success. 
+    
+      ```typescript
+      await authefyServerClient.user.read('user123')
       // true
       ```
 
