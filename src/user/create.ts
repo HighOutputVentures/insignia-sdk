@@ -11,8 +11,10 @@ const logger = Logger.tag('createUser');
 export default async function createUser(
   host = config.host,
   appConfig: { appId: string; appKey?: string },
-  input: Pick<User, 'username'> &
-    Partial<Omit<User, 'id' | 'username'>> & { password: string },
+  input: Partial<Omit<User, 'id' | 'username'>> & {
+    username: string;
+    password: string;
+  },
 ): Promise<User> {
   const path = '/v1/users';
   const url = `${host}${path}`;
