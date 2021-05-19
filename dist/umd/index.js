@@ -1,8 +1,10 @@
 (function (global, factory) {
-            typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-            typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (global = global || self, factory(global.insignia = {}));
-}(this, (function (exports) { 'use strict';
+            typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('url-parse')) :
+            typeof define === 'function' && define.amd ? define(['exports', 'url-parse'], factory) :
+            (global = global || self, factory(global.insignia = {}, global.Url));
+}(this, function (exports, Url) { 'use strict';
+
+            Url = Url && Url.hasOwnProperty('default') ? Url['default'] : Url;
 
             var global$1 = (typeof global !== "undefined" ? global :
                         typeof self !== "undefined" ? self :
@@ -1999,7 +2001,7 @@
               this.domain = null;
               if (EventEmitter.usingDomains) {
                 // if there is an active domain, then attach to it.
-                if (domain.active ) ;
+                if (domain.active && !(this instanceof domain.Domain)) ;
               }
 
               if (!this._events || this._events === Object.getPrototypeOf(this)._events) {
@@ -2652,7 +2654,233 @@
                 const result = await response.text();
                 const responseBody = JSON.parse(result || {});
                 if (responseBody.error) {
-                    throw responseBody.error;
+                    throw new Error(responseBody.error.message);
+                }
+                return responseBody;
+            }
+
+            function _isPlaceholder(a) {
+              return a != null && typeof a === 'object' && a['@@functional/placeholder'] === true;
+            }
+
+            var _isPlaceholder_1 = _isPlaceholder;
+
+            /**
+             * Optimized internal one-arity curry function.
+             *
+             * @private
+             * @category Function
+             * @param {Function} fn The function to curry.
+             * @return {Function} The curried function.
+             */
+
+
+            function _curry1(fn) {
+              return function f1(a) {
+                if (arguments.length === 0 || _isPlaceholder_1(a)) {
+                  return f1;
+                } else {
+                  return fn.apply(this, arguments);
+                }
+              };
+            }
+
+            var _curry1_1 = _curry1;
+
+            /**
+             * Optimized internal two-arity curry function.
+             *
+             * @private
+             * @category Function
+             * @param {Function} fn The function to curry.
+             * @return {Function} The curried function.
+             */
+
+
+            function _curry2(fn) {
+              return function f2(a, b) {
+                switch (arguments.length) {
+                  case 0:
+                    return f2;
+
+                  case 1:
+                    return _isPlaceholder_1(a) ? f2 : _curry1_1(function (_b) {
+                      return fn(a, _b);
+                    });
+
+                  default:
+                    return _isPlaceholder_1(a) && _isPlaceholder_1(b) ? f2 : _isPlaceholder_1(a) ? _curry1_1(function (_a) {
+                      return fn(_a, b);
+                    }) : _isPlaceholder_1(b) ? _curry1_1(function (_b) {
+                      return fn(a, _b);
+                    }) : fn(a, b);
+                }
+              };
+            }
+
+            var _curry2_1 = _curry2;
+
+            /**
+             * Returns a partial copy of an object omitting the keys specified.
+             *
+             * @func
+             * @memberOf R
+             * @since v0.1.0
+             * @category Object
+             * @sig [String] -> {String: *} -> {String: *}
+             * @param {Array} names an array of String property names to omit from the new object
+             * @param {Object} obj The object to copy from
+             * @return {Object} A new object with properties from `names` not on it.
+             * @see R.pick
+             * @example
+             *
+             *      R.omit(['a', 'd'], {a: 1, b: 2, c: 3, d: 4}); //=> {b: 2, c: 3}
+             */
+
+
+            var omit =
+            /*#__PURE__*/
+            _curry2_1(function omit(names, obj) {
+              var result = {};
+              var index = {};
+              var idx = 0;
+              var len = names.length;
+
+              while (idx < len) {
+                index[names[idx]] = 1;
+                idx += 1;
+              }
+
+              for (var prop in obj) {
+                if (!index.hasOwnProperty(prop)) {
+                  result[prop] = obj[prop];
+                }
+              }
+
+              return result;
+            });
+
+            var omit_1 = omit;
+
+            function _has(prop, obj) {
+              return Object.prototype.hasOwnProperty.call(obj, prop);
+            }
+
+            var _has_1 = _has;
+
+            // Based on https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+
+
+            function _objectAssign(target) {
+              if (target == null) {
+                throw new TypeError('Cannot convert undefined or null to object');
+              }
+
+              var output = Object(target);
+              var idx = 1;
+              var length = arguments.length;
+
+              while (idx < length) {
+                var source = arguments[idx];
+
+                if (source != null) {
+                  for (var nextKey in source) {
+                    if (_has_1(nextKey, source)) {
+                      output[nextKey] = source[nextKey];
+                    }
+                  }
+                }
+
+                idx += 1;
+              }
+
+              return output;
+            }
+
+            var _objectAssign_1 = typeof Object.assign === 'function' ? Object.assign : _objectAssign;
+
+            /**
+             * Create a new object with the own properties of the first object merged with
+             * the own properties of the second object. If a key exists in both objects,
+             * the value from the second object will be used.
+             *
+             * @func
+             * @memberOf R
+             * @since v0.26.0
+             * @category Object
+             * @sig {k: v} -> {k: v} -> {k: v}
+             * @param {Object} l
+             * @param {Object} r
+             * @return {Object}
+             * @see R.mergeLeft, R.mergeDeepRight, R.mergeWith, R.mergeWithKey
+             * @example
+             *
+             *      R.mergeRight({ 'name': 'fred', 'age': 10 }, { 'age': 40 });
+             *      //=> { 'name': 'fred', 'age': 40 }
+             *
+             *      const withDefaults = R.mergeRight({x: 0, y: 0});
+             *      withDefaults({y: 2}); //=> {x: 0, y: 2}
+             * @symb R.mergeRight(a, b) = {...a, ...b}
+             */
+
+
+            var mergeRight =
+            /*#__PURE__*/
+            _curry2_1(function mergeRight(l, r) {
+              return _objectAssign_1({}, l, r);
+            });
+
+            var mergeRight_1 = mergeRight;
+
+            var crypto$1 = {};
+
+            function createSignature(params, appKey) {
+                const stringToSign = [
+                    params.method,
+                    new Url(params.host).hostname,
+                    params.path,
+                    params.appId,
+                    params.query,
+                    params.body,
+                ]
+                    .filter((value) => !!value)
+                    .join('\n');
+                return crypto$1
+                    .createHmac('sha256', appKey)
+                    .update(stringToSign)
+                    .digest()
+                    .toString('base64');
+            }
+
+            async function createUser(host = config.host, appConfig, input) {
+                const path = '/v1/users';
+                const url = `${host}${path}`;
+                const body = JSON.stringify(Object.assign(Object.assign({}, omit_1(['password'])(input)), { credentials: { password: input.password } }));
+                const method = 'POST';
+                const signature = appConfig.appKey
+                    ? {
+                        Signature: createSignature({
+                            method,
+                            path,
+                            body,
+                            host,
+                            appId: appConfig.appId,
+                        }, appConfig.appKey),
+                    }
+                    : {};
+                const options = {
+                    method,
+                    headers: mergeRight_1({
+                        'Content-type': 'application/json',
+                        'App-Id': appConfig.appId,
+                    }, signature),
+                    body,
+                };
+                const response = await fetch(url, options);
+                const result = await response.text();
+                const responseBody = JSON.parse(result || {});
+                if (responseBody.error) {
+                    throw new Error(responseBody.error.message);
                 }
                 return responseBody;
             }
@@ -2674,7 +2902,7 @@
                 const result = await response.text();
                 const responseBody = JSON.parse(result || {});
                 if (responseBody.error) {
-                    throw responseBody.error;
+                    throw new Error(responseBody.error.message);
                 }
                 return true;
             }
@@ -2682,11 +2910,16 @@
             class WebClient {
                 constructor(opts) {
                     this.opts = opts;
-                    this.opts.test = this.opts.test || false;
                     this.bitclout = new BitClout({ test: this.opts.test });
                 }
                 get bitcloutAPI() {
                     return this.bitclout;
+                }
+                get user() {
+                    const client = this;
+                    return {
+                        create: (input) => createUser(client.opts.host, client.opts, input),
+                    };
                 }
                 get token() {
                     const client = this;
@@ -2708,4 +2941,4 @@
 
             Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
