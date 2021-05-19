@@ -97,7 +97,7 @@ export default class ServerClient {
     return {
       authenticate: (input: Parameters<typeof authenticateUser>[2]) =>
         authenticateUser(client.opts.host, client.opts.appId, input),
-      authorizeBearer: (input: Parameters<typeof authenticateUser>[1]) =>
+      authorizeBearer: (input: Parameters<typeof authorizeBearerUser>[1]) =>
         authorizeBearerUser(client.opts.appKey, input),
       revoke: (input: Parameters<typeof revokeToken>[2]) =>
         revokeToken(client.opts.host, client.opts.appId, input),

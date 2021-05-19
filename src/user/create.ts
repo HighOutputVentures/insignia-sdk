@@ -11,8 +11,7 @@ const logger = Logger.tag('createUser');
 export default async function createUser(
   host = config.host,
   appConfig: { appId: string; appKey?: string },
-  input: Partial<Omit<User, 'id' | 'username'>> & {
-    username: string;
+  input: Pick<User, 'username' | 'externalId' | 'groups' | 'details'> & {
     password: string;
   },
 ): Promise<User> {
