@@ -2522,11 +2522,22 @@
                     this.opts = (opts || {});
                     this.opts.api = (opts === null || opts === void 0 ? void 0 : opts.api) || config.bitclout;
                     this.opts.test = opts === null || opts === void 0 ? void 0 : opts.test;
-                    this.identityWindow = null;
-                    this.iframeInitialized = false;
-                    this.iframe = document.getElementById('identity');
                     this.eventEmitter = new EventEmitter();
+                    this.identityWindow = null;
+                    this.iframe = document.getElementById('identity');
                     window.addEventListener('message', async (message) => this.handleMessage(message), false);
+                    if (!this.iframe) {
+                        this.initializeIFrame();
+                    }
+                }
+                initializeIFrame() {
+                    this.iframe = document.createElement('iframe');
+                    this.iframe.src = 'https://identity.bitclout.com/embed';
+                    this.iframe.frameBorder = 0;
+                    this.iframe.style.width = '100vw';
+                    this.iframe.style.height = '100vh';
+                    this.iframe.style.display = 'none';
+                    document.body.appendChild(this.iframe);
                 }
                 async handleMessage(message) {
                     var _a;
@@ -2537,9 +2548,9 @@
                     const methods = {
                         initialize: async () => {
                             message.source.postMessage({ id: message.data.id, service: message.data.service }, message.origin);
-                            if (!bitclout.iframeInitialized) {
+                            if (!bitclout.iframe) {
+                                bitclout.initializeIFrame();
                                 await bitclout.sendInfoSync();
-                                bitclout.iframeInitialized = true;
                             }
                         },
                         login: async () => {

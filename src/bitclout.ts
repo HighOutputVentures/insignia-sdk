@@ -9,9 +9,7 @@ export default class BitClout {
 
   private identityWindow: Window | null;
 
-  private iframe: HTMLFrameElement;
-
-  private iframeInitialized: boolean;
+  private iframe: HTMLIFrameElement;
 
   private eventEmitter: EventEmitter;
 
@@ -19,16 +17,29 @@ export default class BitClout {
     this.opts = (opts || {}) as any;
     this.opts.api = opts?.api || config.bitclout;
     this.opts.test = opts?.test;
-    this.identityWindow = null;
-    this.iframeInitialized = false;
-    this.iframe = document.getElementById('identity') as HTMLFrameElement;
     this.eventEmitter = new EventEmitter();
+    this.identityWindow = null;
+    this.iframe = document.getElementById('identity') as HTMLIFrameElement;
 
     window.addEventListener(
       'message',
       async (message) => this.handleMessage(message),
       false,
     );
+
+    if (!this.iframe) {
+      this.initializeIFrame();
+    }
+  }
+
+  private initializeIFrame() {
+    this.iframe = document.createElement('iframe');
+    this.iframe.src = 'https://identity.bitclout.com/embed';
+    (this.iframe as any).frameBorder = 0;
+    this.iframe.style.width = '100vw';
+    this.iframe.style.height = '100vh';
+    this.iframe.style.display = 'none';
+    document.body.appendChild(this.iframe);
   }
 
   private async handleMessage(
@@ -51,9 +62,9 @@ export default class BitClout {
           { id: message.data.id, service: message.data.service },
           message.origin,
         );
-        if (!bitclout.iframeInitialized) {
+        if (!bitclout.iframe) {
+          bitclout.initializeIFrame();
           await bitclout.sendInfoSync();
-          bitclout.iframeInitialized = true;
         }
       },
       login: async () => {
