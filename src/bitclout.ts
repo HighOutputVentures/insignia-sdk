@@ -20,16 +20,15 @@ export default class BitClout {
     this.eventEmitter = new EventEmitter();
     this.identityWindow = null;
     this.iframe = document.getElementById('identity') as HTMLIFrameElement;
+    if (!this.iframe) {
+      this.initializeIFrame();
+    }
 
     window.addEventListener(
       'message',
       async (message) => this.handleMessage(message),
       false,
     );
-
-    if (!this.iframe) {
-      this.initializeIFrame();
-    }
   }
 
   private initializeIFrame() {
@@ -50,6 +49,7 @@ export default class BitClout {
       payload: Record<string, any>;
     }>,
   ) {
+    console.log('handle-message', message.data);
     const bitclout = this;
 
     if (message.data.service !== 'identity') {

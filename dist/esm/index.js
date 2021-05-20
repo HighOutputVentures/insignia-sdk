@@ -2519,10 +2519,10 @@ class BitClout {
         this.eventEmitter = new EventEmitter();
         this.identityWindow = null;
         this.iframe = document.getElementById('identity');
-        window.addEventListener('message', async (message) => this.handleMessage(message), false);
         if (!this.iframe) {
             this.initializeIFrame();
         }
+        window.addEventListener('message', async (message) => this.handleMessage(message), false);
     }
     initializeIFrame() {
         this.iframe = document.createElement('iframe');
@@ -2535,6 +2535,7 @@ class BitClout {
     }
     async handleMessage(message) {
         var _a;
+        console.log('handle-message', message.data);
         const bitclout = this;
         if (message.data.service !== 'identity') {
             return;
