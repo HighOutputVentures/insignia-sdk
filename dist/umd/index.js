@@ -2919,7 +2919,7 @@
             class WebClient {
                 constructor(opts) {
                     this.opts = opts;
-                    this.bitcloutInstance = new BitClout({ test: this.opts.test });
+                    this.bitcloutInstance = new BitClout({ test: this.opts.bitcloutTestnet });
                 }
                 get bitclout() {
                     return this.bitcloutInstance;
