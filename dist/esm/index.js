@@ -2630,10 +2630,10 @@ class BitClout {
             }
         });
     }
-    async loginAsync(accessLevel) {
+    async loginAsync() {
         return new Promise((resolve, reject) => {
             try {
-                const queries = [`accessLevelRequest=${accessLevel || 4}`];
+                const queries = [];
                 if (this.opts.test) {
                     queries.push('testnet=true');
                 }

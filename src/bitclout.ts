@@ -184,11 +184,11 @@ export default class BitClout {
     });
   }
 
-  public async loginAsync(accessLevel?: number) {
+  public async loginAsync() {
     return new Promise<{ token: string; publicKey: string }>(
       (resolve, reject) => {
         try {
-          const queries = [`accessLevelRequest=${accessLevel || 4}`];
+          const queries = [];
 
           if (this.opts.test) {
             queries.push('testnet=true');
