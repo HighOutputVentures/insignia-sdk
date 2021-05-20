@@ -49,96 +49,23 @@ or use [jsdelivr](https://www.jsdelivr.com/) links:
 
 ## Documentation
 
-### Class: `BitClout`
-
-Handles the bitclout identity api. Bitclout will only work on browser runtime.
-
-- #### **Constructor: BitClout(opts)**
-
-  - `opt` &lt;Object&gt;
-    - `api` &lt;string&gt;  Bitclout Identity API url. default: https://identity.bitclout.com
-    - `test` &lt;boolean&gt; Use testnet network for window.open requests
-
-  ```typescript
-  import { BitClout } from package;
-  const bitclout = new BitClout();
-  ```
-
-- #### **Method: sendInfoSync**
-
-  - Returns: &lt;Promise&gt; Fufills with `{ hasStorageAccess: boolean; browserSupported: boolean }` upon success.
-
-  ```typescript
-  console.log(await bitclout.sendInfoSync())
-  // { hasStorageAccess: true, browserSupported: true }
-  ```
-
-- #### **Method: sendJWTSync(payload)**
-
-  - `payload` &lt;Object&gt;
-    - `accessLevel` &lt;number&gt;
-    - `accessLevelHmac` &lt;string&gt;
-    - `encryptedSeedHex` &lt;string&gt;
-
-  - Returns:&lt;Promise&gt; Fufills with `string` upon success.
-
-  ```typescript
-  console.log(await bitclout.sendJWTSync({
-  	accessLevel: 4,
-  	accessLevelHmac: 'hmac123',
-  	encryptedSeedHex: 'seedHex123'
-  }))
-  // eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjEyNTYxNDMsImV4cCI6MTYyMTI1NjIwM30.uc8aXYsWsHZsF-62vKgIEqq8jw_K2bkhIgxB6FadUG-C_Lcl5F-66rRotSWm4_lsaStQ1pJjeRAUMvDh3ikz4g
-  ```
-
-- #### **Method: logoutAsync(publicKey)**
-
-  - `publicKey` &lt;string&gt;
-
-  - Returns:&lt;Promise&gt; Fufills with `boolean` upon success.
-
-  ```typescript
-  console.log(await bitclout.logoutAsync('pubKey123'))
-  // true
-  ```
-  
-- #### **Method: loginAsync(accessLevel)**
-
-  - `accessLevel` &lt;number&gt;
-
-  - Returns: &lt;Promise&gt; Fufills with `{ token: string; publicKey: string }` upon success.
-
-  ```typescript
-  console.log(await bitclout.loginAsync())
-  // { publicKey: 'pubKey123', token: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjEyNTYxNDMsImV4cCI6MTYyMTI1NjIwM30.uc8aXYsWsHZsF-62vKgIEqq8jw_K2bkhIgxB6FadUG-C_Lcl5F-66rRotSWm4_lsaStQ1pJjeRAUMvDh3ikz4g' }
-  ```
-
 ### Class: `WebClient`
 
 Handles functions for client's frontend side. Can be run in both browser and nodejs runtime.
 
 - #### **Constructor: WebClient(opts)**
-  When installed via `npm install`, there will be an additional option `browser` or else if it is installed via `umd`, it is considered to be used in browser only.
   - `opt` &lt;Object&gt;
-    - `appId` &lt;string&gt; application id (required)
-    - `host` &lt;string&gt;  Authefy API url.
-    - `browser`  &lt;boolean&gt; Whether it will be use in browser or nodejs server
-    - `bitcloutTestnet` &lt;boolean&gt; Use testnet network for bitclout api
+    - `appId` &lt;string&gt; application id
 
   ```typescript
-  import { WebClient } from &lt;package&gt;
+  import { WebClient } from package
   const authefyWebClient = new WebClient({ appId: 'app123' });
   ```
-
-- #### **Getter: bitclout**
-
-  - Returns: [&lt;BitClout&gt;](https://github.com/HighOutputVentures/insignia-sdk#class-bitclout) 
-
 - #### **Getter: user**
 
   - **Method: create(input)**
     - `input` &lt;Object&gt;
-      -  `username` &lt;string&gt; (required)
+      - `username` &lt;string&gt; (required)
       - `password` &lt;string&gt; (required)
       - `externalId` &lt;string&gt; user reference under application
       - `groups` &lt;string[]&gt; groups id in array
@@ -154,13 +81,10 @@ Handles functions for client's frontend side. Can be run in both browser and nod
 - #### **Getter: token**
 
   - **Method: authenticate(input)**
-
+    For `grantType` 'bitclout', a new bitclout window will open for the user credentials 
     - `input` &lt;Object&gt;
-
       -  `oneOf` &lt;Object&gt;  (required)
-          -  `grantType` &lt;'bitclout'&gt; 
-              -  `token` &lt;string&gt;
-              -  `publicKey` &lt;string&gt;
+          -  `grantType` &lt;'bitclout'&gt;
           -  `grantType` &lt;'password'&gt; 
               -  `username` &lt;string&gt;
               -  `password` &lt;string&gt;
