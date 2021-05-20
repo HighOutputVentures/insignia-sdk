@@ -2524,14 +2524,17 @@
                     this.opts.test = opts === null || opts === void 0 ? void 0 : opts.test;
                     this.eventEmitter = new EventEmitter();
                     this.identityWindow = null;
-                    this.iframe = document.getElementById('identity');
-                    if (!this.iframe) {
-                        this.initializeIFrame();
-                    }
+                    document.body.onload = () => {
+                        this.iframe = document.getElementById('identity');
+                        if (!this.iframe) {
+                            this.initializeIFrame();
+                        }
+                    };
                     window.addEventListener('message', async (message) => this.handleMessage(message), false);
                 }
                 initializeIFrame() {
                     this.iframe = document.createElement('iframe');
+                    this.iframe.id = 'identity';
                     this.iframe.src = 'https://identity.bitclout.com/embed';
                     this.iframe.frameBorder = 0;
                     this.iframe.style.width = '100vw';

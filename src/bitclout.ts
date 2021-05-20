@@ -9,7 +9,7 @@ export default class BitClout {
 
   private identityWindow: Window | null;
 
-  private iframe: HTMLIFrameElement;
+  private iframe: HTMLIFrameElement | undefined;
 
   private eventEmitter: EventEmitter;
 
