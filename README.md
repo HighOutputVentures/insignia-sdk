@@ -19,7 +19,8 @@ Then import sdk:
 import * as authefy from package;
 ```
 
-We are currently supporting `esm` and `umd`. To use it directly in the browser:
+We are currently supporting `esm` and `umd`. 
+To use it directly in the browser:
 
 download the desired module from [here](https://github.com/HighOutputVentures/insignia-sdk/tree/master/dist ). e.g.
 
@@ -39,6 +40,13 @@ Then import the library from browser:
 </script>
 ```
 
+or use [jsdelivr](https://www.jsdelivr.com/) links: 
+```html
+<script src="//cdn.jsdelivr.net/gh/HighOutputVentures/insignia-sdk/dist/umd/index.js"></script>
+
+<script src="//cdn.jsdelivr.net/gh/HighOutputVentures/insignia-sdk/dist/umd/index.min.js"></script>
+```
+
 ## Documentation
 
 ### Class: `BitClout`
@@ -52,7 +60,7 @@ Handles the bitclout identity api. Bitclout will only work on browser runtime.
     - `test` &lt;boolean&gt; Use testnet network for window.open requests
 
   ```typescript
-  import { BitClout } from &lt;package&gt;
+  import { BitClout } from package;
   const bitclout = new BitClout();
   ```
 
