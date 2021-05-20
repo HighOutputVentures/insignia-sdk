@@ -2630,12 +2630,9 @@ class BitClout {
     async loginAsync(accessLevel) {
         return new Promise((resolve, reject) => {
             try {
-                const queries = [];
+                const queries = [`accessLevelRequest=${accessLevel || 4}`];
                 if (this.opts.test) {
                     queries.push('testnet=true');
-                }
-                if (accessLevel !== undefined && accessLevel !== null) {
-                    queries.push(`accessLevelRequest=${accessLevel}`);
                 }
                 this.identityWindow = window.open(`${this.opts.api}/log-in${queries.length > 0 ? '?' : ''}${queries.join('&')}`, undefined, `toolbar=no, width=800, height=1000, top=${this.position.x}, left=${this.position.y}`);
                 this.eventEmitter.on('login', (message) => {
