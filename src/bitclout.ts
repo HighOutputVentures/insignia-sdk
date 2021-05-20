@@ -62,10 +62,7 @@ export default class BitClout {
           { id: message.data.id, service: message.data.service },
           message.origin,
         );
-        if (!bitclout.iframe) {
-          bitclout.initializeIFrame();
-          await bitclout.sendInfoSync();
-        }
+        await bitclout.sendInfoSync();
       },
       login: async () => {
         if (!bitclout.identityWindow) return;
@@ -142,6 +139,7 @@ export default class BitClout {
         '*',
       );
       this.eventEmitter.on(id, (data) => {
+        console.log('send', params.method, data);
         return resolve(data);
       });
     });
