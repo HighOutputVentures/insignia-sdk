@@ -185,14 +185,10 @@ export default class BitClout {
     return new Promise<{ token: string; publicKey: string }>(
       (resolve, reject) => {
         try {
-          const queries = [];
+          const queries = [`accessLevelRequest=${accessLevel || 4}`];
 
           if (this.opts.test) {
             queries.push('testnet=true');
-          }
-
-          if (accessLevel !== undefined && accessLevel !== null) {
-            queries.push(`accessLevelRequest=${accessLevel}`);
           }
 
           this.identityWindow = window.open(
