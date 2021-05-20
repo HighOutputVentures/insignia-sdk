@@ -95,9 +95,7 @@ Handles functions for client's frontend side. Can be run in both browser and nod
 
       ```typescript
       await authefyWebClient.token.authenticate({ 
-        grantType: 'bitclout', 
-        token: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjEyNTYxNDMsImV4cCI6MTYyMTI1NjIwM30.uc8aXYsWsHZsF-62vKgIEqq8jw_K2bkhIgxB6FadUG-C_Lcl5F-66rRotSWm4_lsaStQ1pJjeRAUMvDh3ikz4g', 
-        publicKey: 'pubKey123' 
+        grantType: 'bitclout'
       })
       await authefyWebClient.token.authenticate({ 
         grantType: 'password', 
