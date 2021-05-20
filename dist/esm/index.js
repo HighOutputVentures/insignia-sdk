@@ -2538,7 +2538,6 @@ class BitClout {
     }
     async handleMessage(message) {
         var _a;
-        console.log('handle-message', message.data);
         const bitclout = this;
         if (message.data.service !== 'identity') {
             return;
@@ -2599,7 +2598,6 @@ class BitClout {
                 payload: params.payload,
             }, '*');
             this.eventEmitter.on(id, (data) => {
-                console.log('send', params.method, data);
                 return resolve(data);
             });
         });

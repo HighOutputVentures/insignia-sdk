@@ -52,7 +52,6 @@ export default class BitClout {
       payload: Record<string, any>;
     }>,
   ) {
-    console.log('handle-message', message.data);
     const bitclout = this;
 
     if (message.data.service !== 'identity') {
@@ -142,7 +141,6 @@ export default class BitClout {
         '*',
       );
       this.eventEmitter.on(id, (data) => {
-        console.log('send', params.method, data);
         return resolve(data);
       });
     });
