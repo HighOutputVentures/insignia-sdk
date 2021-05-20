@@ -2915,9 +2915,6 @@ class WebClient {
         this.opts = opts;
         this.bitcloutInstance = new BitClout({ test: this.opts.bitcloutTestnet });
     }
-    get bitclout() {
-        return this.bitcloutInstance;
-    }
     get user() {
         const client = this;
         return {
@@ -2928,7 +2925,12 @@ class WebClient {
         const client = this;
         return {
             authenticate: async (input) => {
-                return authenticateUser(client.opts.host, client.opts.appId, input);
+                let params = input;
+                if (params.grantType === 'bitclout') {
+                    const bitcloutUser = await this.bitcloutInstance.loginAsync();
+                    params = Object.assign(Object.assign({}, params), bitcloutUser);
+                }
+                return authenticateUser(client.opts.host, client.opts.appId, params);
             },
             revoke: async (input) => {
                 const payload = JSON.parse(Buffer.from(input.refreshToken.split('.')[1], 'base64').toString());
@@ -2939,4 +2941,4 @@ class WebClient {
     }
 }
 
-export { BitClout, WebClient };
+export { WebClient };

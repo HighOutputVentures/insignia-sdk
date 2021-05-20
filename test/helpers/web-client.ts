@@ -1,4 +1,4 @@
-import { WebClient } from '../../src/index';
+import { WebClient } from '../../src/browser';
 import chance from './chance';
 
 const webClient = new WebClient({

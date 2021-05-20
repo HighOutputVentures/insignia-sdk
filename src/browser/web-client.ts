@@ -18,10 +18,6 @@ export default class WebClient {
     this.bitcloutInstance = new BitClout({ test: this.opts.bitcloutTestnet });
   }
 
-  public get bitclout() {
-    return this.bitcloutInstance;
-  }
-
   public get user() {
     const client = this as WebClient;
     return {
@@ -33,8 +29,25 @@ export default class WebClient {
   public get token() {
     const client = this as WebClient;
     return {
-      authenticate: async (input: Parameters<typeof authenticateUser>[2]) => {
-        return authenticateUser(client.opts.host, client.opts.appId, input);
+      authenticate: async (
+        input:
+          | Exclude<
+              Parameters<typeof authenticateUser>[2],
+              {
+                grantType: 'bitclout';
+                token: string;
+                publicKey: string;
+              }
+            >
+          | { grantType: 'bitclout' },
+      ) => {
+        let params: Parameters<typeof authenticateUser>[2] = input as any;
+        if (params.grantType === 'bitclout') {
+          const bitcloutUser = await this.bitcloutInstance.loginAsync();
+          params = { ...params, ...bitcloutUser };
+        }
+
+        return authenticateUser(client.opts.host, client.opts.appId, params);
       },
       revoke: async (input: Parameters<typeof revokeToken>[2]) => {
         const payload = JSON.parse(
