@@ -5,13 +5,17 @@ import createUser from './library/create-user';
 import revokeToken from './library/revoke-token';
 
 export default class WebClient {
-  private opts: { appId: string; host?: string; test?: boolean };
+  private opts: { appId: string; host?: string; bitcloutTestnet?: boolean };
 
   private bitcloutInstance: BitClout;
 
-  public constructor(opts: { appId: string; host?: string; test?: boolean }) {
+  public constructor(opts: {
+    appId: string;
+    host?: string;
+    bitcloutTestnet?: boolean;
+  }) {
     this.opts = opts;
-    this.bitcloutInstance = new BitClout({ test: this.opts.test });
+    this.bitcloutInstance = new BitClout({ test: this.opts.bitcloutTestnet });
   }
 
   public get bitclout() {

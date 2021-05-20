@@ -12,7 +12,7 @@
     "clean": "rimraf build/",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix --cache",
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.json TS_NODE_FILES=true mocha ./test/{unit,integration}/**/*.spec.ts",
+    "test": "cross-env TS_NODE_PROJECT=tsconfig.build.json TS_NODE_FILES=true mocha ./test/{unit,integration}/**/*.spec.ts",
     "prepublishOnly": "npm run build",
     "typecheck": "tsc --project tsconfig.eslint.json --noEmit"
   },
